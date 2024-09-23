@@ -1,10 +1,7 @@
 package com.br.brenoryan77.api_site_convite.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -14,11 +11,11 @@ import java.math.BigDecimal;
 @Table(name = "tb_presente")
 @SQLRestriction("ativo = true")
 @SQLDelete(sql = "UPDATE tb_presente SET ativo = false WHERE id = ?")
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Presentes {
+public class Presente {
 
     @Id
     @SequenceGenerator(name = "seq_presente", sequenceName = "seq_presente", allocationSize = 1)
@@ -34,6 +31,9 @@ public class Presentes {
     @Column(name = "imagem_url", columnDefinition = "TEXT")
     private String imagemUrl;
 
+    @Column(name = "link_produto", columnDefinition = "TEXT")
+    private String linkProduto;
+
     @Column(name = "valor", nullable = false, scale = 2, precision = 10)
     private BigDecimal valor;
 
@@ -41,6 +41,7 @@ public class Presentes {
     private boolean ativo;
 
     @PrePersist
+    @PreUpdate
     private void prePersist(){
         this.ativo = true;
     }
